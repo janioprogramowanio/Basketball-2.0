@@ -2,7 +2,7 @@
 public class Court {
 	
 		
-		 static int [][]coordinates = new int [41][31];
+		  int [][]coordinates = new int [41][31];
 		{
 		for(int i=0;i<6;i++)
 		{

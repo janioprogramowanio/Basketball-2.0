@@ -29,14 +29,20 @@ public class Game {
 				t1.p4.checkPosition(court);
 				t1.p5.checkPosition(court);
 				t1.p1.hasBall=true;
-				ball.pass(t1);
-				
+				ball.reclaimBall(t1, t2);
+				System.out.println("Team t1");
 				System.out.println("Player 1: " + t1.p1.hasBall);
 				System.out.println("Player 2: " + t1.p2.hasBall);
 				System.out.println("Player 3: " + t1.p3.hasBall);
 				System.out.println("Player 4: " + t1.p4.hasBall);
 				System.out.println("Player 5: " + t1.p5.hasBall);
 				System.out.println();
+				System.out.println("Team t2");
+				System.out.println("Player 1: " + t2.p1.hasBall);
+				System.out.println("Player 2: " + t2.p2.hasBall);
+				System.out.println("Player 3: " + t2.p3.hasBall);
+				System.out.println("Player 4: " + t2.p4.hasBall);
+				System.out.println("Player 5: " + t2.p5.hasBall);
 
 				
 			}

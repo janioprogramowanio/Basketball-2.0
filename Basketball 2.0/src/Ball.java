@@ -359,8 +359,18 @@ public class Ball implements BallActions{
 	}
 
 	@Override
-	public void rebound(Team t1 , Team t2) {
-		// TODO Auto-generated method stub
+	public void rebound(Player p1 , Team t) {
+		if(p1.rebound>p1.nearestPlayer(t).rebound)
+		{
+			p1.hasBall=true;
+			p1.nearestPlayer(t).hasBall=false;
+
+		}
+		else
+		{
+			p1.nearestPlayer(t).hasBall=true;
+			p1.hasBall=false;
+		}
 		
 	}
 

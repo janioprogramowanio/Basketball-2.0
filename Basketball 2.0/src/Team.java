@@ -46,6 +46,26 @@ public class Team {
 		p5.yPosition=rand.nextInt(20)+20;
 		}
 	}
+	public void newWinAction()
+	{
+		spawn();
+		p1.hasBall=false;
+		p2.hasBall=false;
+		p3.hasBall=false;
+		p4.hasBall=false;
+		p5.hasBall=false;
 
+		
+	}
+	
+	public void newLooseAction()
+	{
+		spawn();
+		p1.hasBall=true;
+		p2.hasBall=false;
+		p3.hasBall=false;
+		p4.hasBall=false;
+		p5.hasBall=false;
+	}
 }
 

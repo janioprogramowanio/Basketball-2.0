@@ -31,15 +31,15 @@ public class Player implements Distance,PlayerActions {
 		 
 		 if(yPosition>0 && yPosition<40)
 		 {
-			 yPosition+=rand.nextInt(5)-2;
+			 yPosition+=rand.nextInt(3)-2;
 		 }
 		 if(yPosition<=6)
 		 {
-			 yPosition+=rand.nextInt(3);
+			 yPosition+=rand.nextInt(5);
 		 }
 		 if(yPosition>=34)
 		 {
-			 yPosition-=rand.nextInt(3);
+			 yPosition-=rand.nextInt(5);
 		 }
 	 }
 	
@@ -105,15 +105,101 @@ public class Player implements Distance,PlayerActions {
 		}
 
 		@Override
-		public void readyToThrow() {
-			// TODO Auto-generated method stub
+		public void readyToThrow( Team t1, Team t2 , Court c, Ball b) {
+			if(t1.teamNr==1)
+			{
+				if(this.yPosition>20)
+				{
+					if(this.hasBall)
+					{
+						this.throwBall(t1,t2,c,b);
+					}
+					
+				}
+				else
+				{
+					this.moving();
+				}
+				
+			}
+			if(t1.teamNr==2)
+				if(this.yPosition<20)
+				{
+					if(this.hasBall)
+					{
+						this.throwBall(t1,t2,c,b);
+					}
+					
+				}
+				else
+				{
+					this.moving();
+				}
+			
 			
 		}
 
 		@Override
-		public void throwBall() {
-			// TODO Auto-generated method stub
+		public void throwBall(Team t1 , Team t2 , Court c , Ball b) {
+			if(t1.teamNr==1) 
+			{
+				if(this.checkPosition(c)==0)
+				{
+					if(this.twoPointsThrow + rand.nextInt(6)>10)
+					{
+						t1.score+=2;
+						t1.newWinAction();
+						t2.newLooseAction();
+					}
+					else
+					{
+						b.rebound(this,t2);
+					}
+				}
+				if(this.checkPosition(c)==1) 
+				{
+					if(this.threePointsThorw+rand.nextInt(6)>10)
+					{
+						t1.score+=3;
+						t1.newWinAction();
+						t2.newLooseAction();
+					}
+					else
+					{
+						b.rebound(this,t2);
+					}
+				}
+			}
 			
+			if(t1.teamNr==2) 
+			{
+				if(this.checkPosition(c)==0)
+				{
+					if(this.twoPointsThrow + rand.nextInt(6)>10)
+					{
+						t1.score+=2;
+						t1.newWinAction();
+						t2.newLooseAction();
+					}
+					else
+					{
+						b.rebound(this,t2);
+					}
+				}
+				if(this.checkPosition(c)==1) 
+				{
+					if(this.threePointsThorw+rand.nextInt(6)>10)
+					{
+						t1.score+=3;
+						t1.newWinAction();
+						t2.newLooseAction();
+					}
+					else
+					{
+						b.rebound(this,t2);
+					}
+				}
+			}
 		}
 
 	

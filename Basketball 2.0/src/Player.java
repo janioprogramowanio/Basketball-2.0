@@ -5,47 +5,78 @@ import java.util.Random;
 public class Player implements Distance,PlayerActions {
 	
 	Random rand = new Random();
-	 int twoPointsThrow=rand.nextInt(10);
-	 int threePointsThorw=rand.nextInt(10);
-	 int pass=rand.nextInt(10);
-	 int steal=rand.nextInt(10);
-	 int rebound=rand.nextInt(10);
-	 int xPosition;
-	 int yPosition;
-	 boolean hasBall=false;
+	private int twoPointsThrow=rand.nextInt(10);
+	private int threePointsThorw=rand.nextInt(10);
+	private int pass=rand.nextInt(10);
+	private int steal=rand.nextInt(10);
+	private int rebound=rand.nextInt(10);
+	private int xPosition;
+	private int yPosition;
+	private boolean hasBall=false;
+	
+	
 	 
-	 public void moving()
+	 public void moving(Team t1 , Team t2)
 	 {
-		 if(xPosition>0 && xPosition<30)
+		 if(t1.teamNr==1)
 		 {
-			 xPosition+=rand.nextInt(5)-2;
+			 if((this.yPosition>2 && this.yPosition<39) && (this.xPosition>2 && this.yPosition<29))
+			 {
+				this.yPosition+=rand.nextInt(2);
+				this.xPosition+=rand.nextInt(2);
+			 }
+			 else if (this.yPosition<=2)
+			 {
+				 this.yPosition+=4;
+			 }
+			 else if(this.yPosition>=39)
+			 {
+				 this.yPosition-=4;
+			 }
+			 else if (this.xPosition<=2)
+			 {
+				 this.xPosition+=4;
+			 }
+			 else if(this.xPosition>=29)
+			 {
+				 this.xPosition-=4;
+			 }
+			 
+			 
+			 
 		 }
-		 if(xPosition<=6)
+		  if(t2.teamNr==2)
 		 {
-			 xPosition+=rand.nextInt(3);
-		 }
-		 if(xPosition>=24)
-		 {
-			 xPosition-=rand.nextInt(3);
+			  if((this.yPosition>2 && this.yPosition<39) && (this.xPosition>2 && this.yPosition<29))
+				 {
+					this.yPosition-=rand.nextInt(2);
+					this.xPosition+=rand.nextInt(2);
+				 }
+			  else if (this.yPosition<=2)
+				 {
+					 this.yPosition+=4;
+				 }
+				 else if(this.yPosition>=39)
+				 {
+					 this.yPosition-=4;
+				 }
+				 else if (this.xPosition<=2)
+				 {
+					 this.xPosition+=4;
+				 }
+				 else if(this.xPosition>=29)
+				 {
+					 this.xPosition-=4;
+				 }
 		 }
 		 
-		 if(yPosition>0 && yPosition<40)
-		 {
-			 yPosition+=rand.nextInt(3)-2;
-		 }
-		 if(yPosition<=6)
-		 {
-			 yPosition+=rand.nextInt(5);
-		 }
-		 if(yPosition>=34)
-		 {
-			 yPosition-=rand.nextInt(5);
-		 }
+		 
+		 
 	 }
 	
 	 public int checkPosition(Court c) {
 
-			if(c.coordinates[xPosition][yPosition]==1)
+			if(c.coordinates[this.yPosition][this.xPosition]==1)
 			{
 				return 1;
 			}
@@ -118,22 +149,25 @@ public class Player implements Distance,PlayerActions {
 				}
 				else
 				{
-					this.moving();
+					this.moving(t1,t2);
+					b.reclaimBall(t1, t2);
 				}
 				
 			}
-			if(t1.teamNr==2)
+			else if(t1.teamNr==2)
 				if(this.yPosition<20)
 				{
 					if(this.hasBall)
 					{
 						this.throwBall(t1,t2,c,b);
+				
 					}
 					
 				}
 				else
 				{
-					this.moving();
+					this.moving(t1,t2);
+					b.reclaimBall(t1, t2);
 				}
 			
 			
@@ -143,7 +177,7 @@ public class Player implements Distance,PlayerActions {
 		public void throwBall(Team t1 , Team t2 , Court c , Ball b) {
 			if(t1.teamNr==1) 
 			{
-				if(this.checkPosition(c)==0)
+				if(this.checkPosition(c)==1)
 				{
 					if(this.twoPointsThrow + rand.nextInt(6)>10)
 					{
@@ -156,7 +190,7 @@ public class Player implements Distance,PlayerActions {
 						b.rebound(this,t2);
 					}
 				}
-				if(this.checkPosition(c)==1) 
+				else if(this.checkPosition(c)==0) 
 				{
 					if(this.threePointsThorw+rand.nextInt(6)>10)
 					{
@@ -171,37 +205,99 @@ public class Player implements Distance,PlayerActions {
 				}
 			}
 			
-			if(t1.teamNr==2) 
+			 if(t2.teamNr==2) 
 			{
-				if(this.checkPosition(c)==0)
+				if(this.checkPosition(c)==1)
 				{
 					if(this.twoPointsThrow + rand.nextInt(6)>10)
 					{
-						t1.score+=2;
-						t1.newWinAction();
-						t2.newLooseAction();
+						t2.score+=2;
+						t2.newWinAction();
+						t1.newLooseAction();
 					}
 					else
 					{
-						b.rebound(this,t2);
+						b.rebound(this,t1);
 					}
 				}
-				if(this.checkPosition(c)==1) 
+				else if(this.checkPosition(c)==0) 
 				{
 					if(this.threePointsThorw+rand.nextInt(6)>10)
 					{
-						t1.score+=3;
-						t1.newWinAction();
-						t2.newLooseAction();
+						t2.score+=3;
+						t2.newWinAction();
+						t1.newLooseAction();
 					}
 					else
 					{
-						b.rebound(this,t2);
+						b.rebound(this,t1);
 					}
 				}
 			}
 		}
 
+		public int getTwoPointsThrow() {
+			return twoPointsThrow;
+		}
+
+		public void setTwoPointsThrow(int twoPointsThrow) {
+			this.twoPointsThrow = twoPointsThrow;
+		}
+
+		public int getThreePointsThorw() {
+			return threePointsThorw;
+		}
+
+		public void setThreePointsThorw(int threePointsThorw) {
+			this.threePointsThorw = threePointsThorw;
+		}
+
+		public int getPass() {
+			return pass;
+		}
+
+		public void setPass(int pass) {
+			this.pass = pass;
+		}
+
+		public int getSteal() {
+			return steal;
+		}
+
+		public void setSteal(int steal) {
+			this.steal = steal;
+		}
+
+		public int getRebound() {
+			return rebound;
+		}
+
+		public void setRebound(int rebound) {
+			this.rebound = rebound;
+		}
+
+		public boolean isHasBall() {
+			return hasBall;
+		}
+
+		public void setHasBall(boolean hasBall) {
+			this.hasBall = hasBall;
+		}
+		public int getxPosition() {
+			return xPosition;
+		}
+
+		public void setxPosition(int xPosition) {
+			this.xPosition = xPosition;
+		}
+
+		public int getyPosition() {
+			return yPosition;
+		}
+
+		public void setyPosition(int yPosition) {
+			this.yPosition = yPosition;
+		}
 	
 
 }
